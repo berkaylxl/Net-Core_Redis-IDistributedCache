@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -55,6 +56,17 @@ namespace IDistrubutedCacheRedisApp.Web.Controllers
         {
             _distributedCache.Remove("Name");
             return View();
+        }
+
+        public IActionResult ImageCache()
+        {
+            //Image File Caching
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Image/resim1.png");
+            byte[] imageByte= System.IO.File.ReadAllBytes(path);
+
+            _distributedCache.Set("resim", imageByte);
+
+            return Ok();
         }
     }
 }
